@@ -6,7 +6,9 @@ export const SingleProduct = ({
   onAddToCart,
   addedInCart,
 }) => {
-  const { name, oldPrice, price, image, isSale, isNew, id } = product;
+  const { name, oldPrice, price, imageUrls, isSale, isNew, id, minPrice, maxPrice } = product;
+  const firstImageUrl = imageUrls?.length > 0 ? imageUrls?.split(",")[0] : "";
+  console.log('product: ', product)
   return (
     <>
       {/* <!-- BEING SINGLE PRODUCT ITEM --> */}
@@ -16,7 +18,7 @@ export const SingleProduct = ({
           {isNew && <span className='products-item__new'>new</span>}
         </div>
         <div className='products-item__img'>
-          <img src={image} className='js-img' alt='' />
+          <img src={firstImageUrl} className='js-img' alt='' />
           <div className='products-item__hover'>
             <Link href={`/product/${id}`}>
               <a>
@@ -44,7 +46,7 @@ export const SingleProduct = ({
             </a>
           </Link>
           <span className='products-item__cost'>
-            <span>{oldPrice && `$${oldPrice}`}</span> ${price}
+            <span>{oldPrice && `$${oldPrice}`}</span> đ{minPrice?.toLocaleString("ja")} - đ{maxPrice?.toLocaleString('ja')}
           </span>
         </div>
       </div>

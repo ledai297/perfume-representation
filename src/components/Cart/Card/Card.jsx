@@ -6,7 +6,7 @@ export const Card = ({ cart, onChangeQuantity }) => {
     image,
     id,
     isStocked,
-    productNumber,
+    sku,
     oldPrice,
     price,
     quantity,
@@ -28,17 +28,13 @@ export const Card = ({ cart, onChangeQuantity }) => {
             {isStocked && (
               <span className='cart-table__info-stock'>in stock</span>
             )}
-            <span className='cart-table__info-num'>SKU: {productNumber}</span>
+            <span className='cart-table__info-num'>SKU: {sku}</span>
           </div>
         </div>
         <div className='cart-table__col'>
-          {oldPrice ? (
             <span className='cart-table__price'>
-              <span>${oldPrice}</span>${price}
+              <span>{(price * 1.1).toLocaleString("ja")}đ</span>{price?.toLocaleString("ja")}đ
             </span>
-          ) : (
-            <span className='cart-table__price'>${price}</span>
-          )}
         </div>
         <div className='cart-table__col'>
           <div className='cart-table__quantity'>
@@ -66,7 +62,7 @@ export const Card = ({ cart, onChangeQuantity }) => {
         </div>
         <div className='cart-table__col'>
           <span className='cart-table__total'>
-            ${(price * quantity).toFixed(2)}
+            {(price * quantity).toLocaleString("ja")}đ
           </span>
         </div>
       </div>

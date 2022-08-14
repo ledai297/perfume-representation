@@ -500,6 +500,30 @@ h6,
   }
 }
 
+.product-detail {
+  .row {
+    display: flex;
+    margin-bottom: 8px;
+
+    .col {
+      width: 50%;
+    }
+  }
+  label {
+    color: rgba(0,0,0,.4);
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 8.75rem;
+    padding-right: 0.75rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  &__item-value {
+  }
+}
+
 .slick-arrow {
   position: absolute;
   top: 45.5%;
@@ -2913,7 +2937,7 @@ blockquote,
     color: #222222;
     font-size: 32px;
     line-height: 130%;
-    text-transform: capitalize;
+    // text-transform: capitalize;
     display: block;
     margin-bottom: 31px;
 
@@ -2961,8 +2985,8 @@ blockquote,
       }
 
       li {
-        width: 25px;
-        height: 25px;
+        width: max-content;
+        padding: 5px 10px;
         margin-right: 5px;
         border: 2px solid transparent;
         transition: $transition;
@@ -3346,7 +3370,6 @@ blockquote,
         font-size: 14px;
         line-height: 100%;
         text-decoration-line: line-through;
-        text-transform: capitalize;
       }
     }
 

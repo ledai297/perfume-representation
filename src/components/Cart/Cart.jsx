@@ -38,19 +38,19 @@ export const Cart = () => {
           <div className='cart-table'>
             <div className='cart-table__box'>
               <div className='cart-table__row cart-table__row-head'>
-                <div className='cart-table__col'>Product</div>
-                <div className='cart-table__col'>Price</div>
-                <div className='cart-table__col'>Quantity</div>
-                <div className='cart-table__col'>Total</div>
+                <div className='cart-table__col'>Sản phẩm</div>
+                <div className='cart-table__col'>Giá</div>
+                <div className='cart-table__col'>Số lượng</div>
+                <div className='cart-table__col'>Thành tiền</div>
               </div>
 
-              {cart.map((cart) => (
+              {cart.map((item) => (
                 <Card
                   onChangeQuantity={(change, quantity) =>
-                    handleProductQuantity(change, quantity, cart.id)
+                    handleProductQuantity(change, quantity, item.id)
                   }
-                  key={cart.id}
-                  cart={cart}
+                  key={item.id}
+                  cart={item}
                 />
               ))}
             </div>

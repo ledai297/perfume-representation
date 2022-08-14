@@ -6,20 +6,26 @@ import { Reviews } from '../Reviews/Reviews';
 import { ReviewFrom } from '../ReviewForm/ReviewFrom';
 import { useRouter } from 'next/router';
 import { CartContext } from 'pages/_app';
+import ProductService from 'service/product/ProductService';
+import { SEX } from 'static/Product';
+import { Col, Container, Row } from 'reactstrap';
 
 export const ProductDetails = () => {
   const router = useRouter();
   const { cart, setCart } = useContext(CartContext);
 
   const socialLinks = [...socialData];
-  const products = [...productData];
   const [product, setProduct] = useState(null);
   const [addedInCart, setAddedInCart] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [tab, setTab] = useState(1);
+  const [nav1, setNav1] = useState();
+  const [nav2, setNav2] = useState();
+  const [ variantSelected, setVariantSelected ] = useState([]);
 
   useEffect(() => {
     if (router.query.id) {
-      const data = products.find((pd) => pd.id === router.query.id);
-      setProduct(data);
+      fetchProductDetail(router.query.id);
     }
   }, [router.query.id]);
 
@@ -29,16 +35,99 @@ export const ProductDetails = () => {
     }
   }, [product, cart]);
 
-  const [quantity, setQuantity] = useState(1);
-  const [tab, setTab] = useState(2);
-  const [activeColor, setActiveColor] = useState(2);
-  const [nav1, setNav1] = useState();
-  const [nav2, setNav2] = useState();
+  const fetchProductDetail = async (id) => {
+    try {
+      const response = await ProductService.findById(id);
+      setProduct(response?.data);
+      setVariantSelected(response?.data?.variants?.length > 0 ? response?.data?.variants[0] : null);
+    } catch (error) {
+
+    }
+  }
 
   const handleAddToCart = () => {
     const newProduct = { ...product, quantity: quantity };
-    setCart([...cart, newProduct]);
+    const cartItem = {
+      sku: variantSelected?.sku,
+      name: product?.name,
+      price: variantSelected?.price,
+      quantity: quantity,
+      image: product?.imageUrls?.split(",")[0],
+      variantId: variantSelected?.id,
+      productId: product?.id
+    };
+    setCart([...cart, cartItem]);
   };
+  
+  const renderProductDetail = () => {
+    const sex = SEX[`${product?.sex}`]?.name;
+    return (
+      <div className='product-detail'>
+        <div className='row'>
+          <div className='col xs-6'>
+            <label>Thương hiệu</label>
+          </div>
+          <div className='col xs-6 product-detail__item-value'>{product?.brand?.name}</div>
+        </div>
+
+        <div className='row'>
+          <div className='col xs-6'>
+            <label>Giới tính</label>
+          </div>
+          <div className='col xs-6 product-detail__item-value'>{sex}</div>
+        </div>
+
+        <div className='row'>
+          <div className='col xs-6'>
+            <label>Kích cỡ sản phẩm</label>
+          </div>
+          <div className='col xs-6 product-detail__item-value'>{product?.size}</div>
+        </div>
+
+        <div className='row'>
+          <div className='col xs-6'>
+            <label>Mùi hương</label>
+          </div>
+          <div className='col xs-6 product-detail__item-value'>{product?.smell}</div>
+        </div>
+
+        <div className='row'>
+          <div className='col xs-6'>
+            <label>Hạn sử dụng</label>
+          </div>
+          <div className='col xs-6 product-detail__item-value'>{product?.guaranteePeriod} tháng</div>
+        </div>
+
+        <div className='row'>
+          <div className='col xs-6'>
+            <label>Công thức</label>
+          </div>
+          <div className='col xs-6 product-detail__item-value'>{product?.formula}</div>
+        </div>
+
+        <div className='row'>
+          <div className='col xs-6'>
+            <label>Trọng lượng</label>
+          </div>
+          <div className='col xs-6 product-detail__item-value'>{product?.weight}g</div>
+        </div>
+
+        <div className='row'>
+          <div className='col xs-6'>
+            <label>Kho hàng</label>
+          </div>
+          <div className='col xs-6 product-detail__item-value'>{product?.warehouse?.name}</div>
+        </div>
+
+        <div className='row'>
+          <div className='col xs-6'>
+            <label>Gửi từ</label>
+          </div>
+          <div className='col xs-6 product-detail__item-value'>{product?.warehouse?.address}</div>
+        </div>
+      </div>
+    )
+  }
 
   if (!product) return <></>;
   return (
@@ -52,16 +141,16 @@ export const ProductDetails = () => {
               <div className='product-slider__main'>
                 <Slider
                   fade={true}
-                  asNavFor={nav2}
-                  arrows={false}
+                  // asNavFor={nav2}
+                  // arrows={false}
                   lazyLoad={true}
-                  ref={(slider1) => setNav1(slider1)}
+                  // ref={(slider1) => setNav1(slider1)}
                 >
-                  {product.imageGallery.map((img, index) => (
+                  {product?.imageUrls?.split(",")?.map((img, index) => (
                     <div key={index} className='product-slider__main-item'>
                       <div className='products-item__type'>
                         {product.isSale && (
-                          <span className='products-item__sale'>sale</span>
+                        <span classNasme='products-item__sale'>sale</span>
                         )}
                         {product.isNew && (
                           <span className='products-item__new'>new</span>
@@ -70,6 +159,13 @@ export const ProductDetails = () => {
                       <img src={img} alt='product' />
                     </div>
                   ))}
+                  {/* {
+                    product?.imageUrls?.split(",")?.map((imageUrl, index) => (
+                      <div className='product-slider__main-item' key={index}>
+                        <img src={imageUrl} alt='product' />
+                      </div>
+                    ))
+                  } */}
                 </Slider>
               </div>
 
@@ -83,31 +179,30 @@ export const ProductDetails = () => {
                   swipeToSlide={true}
                   focusOnSelect={true}
                 >
-                  {product.imageGallery.map((img, index) => (
+                  {/* {product.imageGallery.map((img, index) => (
                     <div key={index} className='product-slider__nav-item'>
                       <img src={img} alt='product' />
                     </div>
-                  ))}
+                  ))} */}
                 </Slider>
               </div>
             </div>
             <div className='product-info'>
               <h3>{product.name}</h3>
-              {product.isStocked ? (
+              {/* {product.isStocked ? ( */}
                 <span className='product-stock'>in stock</span>
-              ) : (
+              {/* ) : (
                 ''
-              )}
+              )} */}
 
-              <span className='product-num'>SKU: {product.productNumber}</span>
-              {product.oldPrice ? (
+              <span className='product-num'>SKU: {variantSelected?.sku}</span>
+              {/* {product.oldPrice ? ( */}
                 <span className='product-price'>
-                  <span>${product.oldPrice}</span>${product.price}
+                  <span>đ {(variantSelected?.price * 1.1).toLocaleString("ja")}</span>đ {variantSelected?.price?.toLocaleString("ja")}
                 </span>
-              ) : (
-                <span className='product-price'>${product.price}</span>
-              )}
-              <p>{product.content}</p>
+              {/* ) : (
+                <span className='product-price'>đ {variantSelected?.price?.toLocaleString("ja")}</span>
+              )} */}
 
               {/* <!-- Social Share Link --> */}
               <div className='contacts-info__social'>
@@ -126,15 +221,14 @@ export const ProductDetails = () => {
               {/* <!-- Product Color info--> */}
               <div className='product-options'>
                 <div className='product-info__color'>
-                  <span>Color:</span>
+                  <span>Thể tích:</span>
                   <ul>
-                    {product?.colors.map((color, index) => (
+                    {product?.variants.map((variant, index) => (
                       <li
-                        onClick={() => setActiveColor(index)}
-                        className={activeColor === index ? 'active' : ''}
+                        onClick={() => setVariantSelected(variant)}
+                        className={variantSelected?.id === variant?.id ? 'active' : ''}
                         key={index}
-                        style={{ backgroundColor: color }}
-                      ></li>
+                      >{variant?.volume}ml</li>
                     ))}
                   </ul>
                 </div>
@@ -176,10 +270,10 @@ export const ProductDetails = () => {
                   onClick={() => handleAddToCart()}
                   className='btn btn-icon'
                 >
-                  <i className='icon-cart'></i> cart
+                  <i className='icon-cart'></i> Thêm vào giỏ hàng
                 </button>
                 <button className='btn btn-grey btn-icon'>
-                  <i className='icon-heart'></i> wish
+                  <i className='icon-heart'></i> Yêu thích
                 </button>
               </div>
             </div>
@@ -193,31 +287,32 @@ export const ProductDetails = () => {
                   className={tab === 1 ? 'active' : ''}
                   onClick={() => setTab(1)}
                 >
-                  Description
+                  Chi tiết sản phẩm
                 </li>
                 <li
                   className={tab === 2 ? 'active' : ''}
                   onClick={() => setTab(2)}
                 >
-                  Reviews
+                  Mô tả sản phẩm
                 </li>
               </ul>
               <div className='box-tab-cont'>
                 {/* <!-- Product description --> */}
                 {tab === 1 && (
-                  <div className='tab-cont'>
-                    <p>{product.description}</p>
-                    <p>{product.description}</p>
+                  <div>
+                    {renderProductDetail()}
                   </div>
                 )}
 
                 {tab === 2 && (
                   <div className='tab-cont product-reviews'>
                     {/* <!-- Product Reviews --> */}
-                    <Reviews reviews={product.reviews} />
-
+                    {/* <Reviews reviews={product.reviews} /> */}
                     {/* <!-- Product Review Form --> */}
-                    <ReviewFrom />
+                    {/* <ReviewFrom /> */}
+                    <div className='tab-cont'>
+                      <p>{product.description}</p>
+                    </div>
                   </div>
                 )}
               </div>
