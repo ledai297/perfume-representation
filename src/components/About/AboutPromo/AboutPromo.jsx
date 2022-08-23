@@ -8,7 +8,7 @@ export const AboutPromo = () => {
 
   const promoNumber = [...PromoNumberData];
   const url = play
-    ? 'https://www.youtube.com/embed/K1yp7Q1hH1c'
+    ? 'https://cvf.shopee.vn/file/d2db1d3b9e449195cc529462f4e11ae3'
     : '';
   return (
     <>
@@ -16,9 +16,9 @@ export const AboutPromo = () => {
       <section className='promo-video'>
         <div className='wrapper'>
           <SectionTitle
-            title='Welcome to BeShope'
+            title='Welcome to -𝕽𝖎𝖇𝖎- 𝕮𝖔𝖘𝖒𝖊𝖙𝖎𝖈𝖘'
             subTitle='Promotion video'
-            body={`Today we can offer our customers exclusive products of 108 brands marked "only in BeShope"`}
+            body={`Today we can offer our customers exclusive products of 108 brands marked "only in -𝕽𝖎𝖇𝖎- 𝕮𝖔𝖘𝖒𝖊𝖙𝖎𝖈𝖘`}
           />
 
           <div className='promo-video__block'>

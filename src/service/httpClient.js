@@ -1,4 +1,5 @@
 const axios = require('axios').default;
+const qs = require("query-string");
 
 const instance = axios.create({
     baseURL: 'http://localhost:5000/api',
@@ -7,6 +8,9 @@ const instance = axios.create({
         'X-Custom-Header': 'foobar',
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+    },
+    paramsSerializer: (params) => {
+        return qs.stringify(params);
     }
 });
 

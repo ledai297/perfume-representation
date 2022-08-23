@@ -2,13 +2,11 @@ import productData from 'data/product/product';
 import { useContext, useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import socialData from 'data/social';
-import { Reviews } from '../Reviews/Reviews';
-import { ReviewFrom } from '../ReviewForm/ReviewFrom';
 import { useRouter } from 'next/router';
 import { CartContext } from 'pages/_app';
 import ProductService from 'service/product/ProductService';
 import { SEX } from 'static/Product';
-import { Col, Container, Row } from 'reactstrap';
+import { StorageUtils } from 'utils/StorageUtils';
 
 export const ProductDetails = () => {
   const router = useRouter();
@@ -39,6 +37,9 @@ export const ProductDetails = () => {
     try {
       const response = await ProductService.findById(id);
       setProduct(response?.data);
+      if (response?.data) {
+        StorageUtils.addRecentlyViewedProducts(response?.data);
+      }
       setVariantSelected(response?.data?.variants?.length > 0 ? response?.data?.variants[0] : null);
     } catch (error) {
 
@@ -269,6 +270,7 @@ export const ProductDetails = () => {
                   disabled={addedInCart}
                   onClick={() => handleAddToCart()}
                   className='btn btn-icon'
+                  style={{ whiteSpace: 'nowrap' }}
                 >
                   <i className='icon-cart'></i> Thêm vào giỏ hàng
                 </button>

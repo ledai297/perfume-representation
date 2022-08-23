@@ -5,7 +5,7 @@ export const Categories = ({ categories }) => {
     <>
       {/* <!-- BEGIN  CATEGORIES --> */}
       {categories.map((category) => (
-        <Card key={category.categoryId} category={category} />
+        <Card key={category.id} category={category} />
       ))}
       {/* <!--  CATEGORIES EOF   --> */}
     </>

@@ -6,71 +6,62 @@ export const navItem = [
   {
     name: 'Home',
     path: '/',
+    id: 1
   },
   {
-    name: 'pages',
-    path: '#',
+    name: 'Thương hiệu',
+    path: '/shop',
+    id: 2,
     subNav: [
       {
-        name: 'About us',
-        path: '/about',
+        name: 'Channel',
+        path: '/shop',
       },
       {
-        name: 'FAQ',
-        path: '/faq',
+        name: 'Gucci',
+        path: '/shop',
       },
       {
-        name: 'My Profile',
-        path: '/profile',
-      },
-      {
-        name: 'Login',
-        path: '/login',
-      },
-      {
-        name: 'Registration',
-        path: '/registration',
-      },
-      {
-        name: 'Product',
-        path: '/product',
-      },
-      {
-        name: 'Post',
-        path: '/blog/2633',
-      },
-      {
-        name: 'Checkout',
-        path: '/checkout',
-      },
-      {
-        name: '404',
-        path: '/404',
-      },
-      {
-        name: 'Cart',
-        path: '/cart',
-      },
-      {
-        name: 'Wishlist',
-        path: '/wishlist',
+        name: 'Christian Dior',
+        path: '/shop',
       },
     ],
   },
   {
-    name: 'shop',
+    id: 3,
+    name: 'Danh mục',
     path: '/shop',
+    subNav: [
+      {
+        name: 'Nước hoa nữ',
+        path: '/shop',
+      },
+      {
+        name: 'Nước hoa nam',
+        path: '/shop',
+      },
+      {
+        name: 'Christian Dior',
+        path: '/shop',
+      },
+      {
+        name: 'Nước hoa Niche',
+        path: '/shop',
+      },
+      {
+        name: 'Nước hoa cao cấp',
+        path: '/shop',
+      },
+    ],
   },
   {
-    name: 'Categories',
-    path: '/categories',
-  },
-  {
-    name: 'blog',
+    id: 4,
+    name: 'Kiến thức về nước hoa',
     path: '/blog',
   },
   {
-    name: 'contact',
+    id: 5,
+    name: 'Liên hệ',
     path: '/contact',
   },
 ];

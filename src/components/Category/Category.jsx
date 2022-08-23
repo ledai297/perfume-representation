@@ -1,8 +1,24 @@
-import categoryData from 'data/category/category';
+import CategoryService from 'service/category/CategoryService';
 import { Categories } from './Categories/Categories';
+import { useEffect, useState } from 'react';
 
 export const Category = () => {
-  const categories = [...categoryData];
+  const [ categories, setCategories ] = useState([]);
+
+  useEffect(() => {
+    fetchCatefories();
+  }, []);
+
+  const fetchCatefories = async () => {
+    try {
+      const response = await CategoryService.filterCategories();
+      setCategories(response?.data || []);
+    } catch (error) {
+      
+    }
+  }
+
+
   return (
     <>
       {/* <!-- BEGIN TOP CATEGORIES --> */}

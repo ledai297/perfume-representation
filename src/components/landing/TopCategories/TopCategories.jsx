@@ -1,9 +1,24 @@
 import { Categories } from 'components/Category/Categories/Categories';
 import { SectionTitle } from 'components/shared/SectionTitle/SectionTitle';
-import categoriesData from 'data/category/category';
+import { useEffect, useState } from 'react';
+import CategoryService from 'service/category/CategoryService';
 
 export const TopCategories = () => {
-  const categories = [...categoriesData].slice(0, 3);
+  const [ categories, setCategories ] = useState([]);
+
+  useEffect(() => {
+    fetchCatefories();
+  }, []);
+
+  const fetchCatefories = async () => {
+    try {
+      const response = await CategoryService.filterCategories();
+      setCategories(response?.data || []);
+    } catch (error) {
+      
+    }
+  }
+
   return (
     <>
       {/* <!-- BEGIN TOP CATEGORIES --> */}
@@ -11,7 +26,7 @@ export const TopCategories = () => {
         <SectionTitle
           subTitle='Popular collections'
           title='top categories'
-          body='Nourish your skin with toxin-free cosmetic products. With the offers that you can’t refuse.'
+          body=''
         />
         <div className='top-categories__items'>
           {<Categories categories={categories} />}

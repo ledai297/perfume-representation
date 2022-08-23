@@ -172,6 +172,7 @@ h6,
     background: #faf9ff;
     border: 1px solid #eeeeee;
     color: #222222;
+    white-space: nowrap;
 
     &:hover {
       color: #eee;
@@ -717,6 +718,11 @@ h6,
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    &:hover img {
+      opacity: 0.5;
+      transition: all 1.5s;
     }
 
     &-hover {
@@ -2459,13 +2465,19 @@ blockquote,
 
       ul {
         li {
-          a {
+          .active {
+            color: #d05278;
+              border-color: #d05278;
+              color: #d05278;
+          }
+          a, span {
             font-size: 16px;
             line-height: 170%;
             color: #666666;
             display: block;
             padding: 13px 0;
             border-bottom: 1px solid #eeeeee;
+            cursor: pointer;
 
             span {
               margin-left: 8px;
@@ -2562,6 +2574,13 @@ blockquote,
           display: block;
         }
 
+        .shop-aside__item-product-title {
+          width: 130px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
         &:hover {
           .shop-aside__item-product-title {
             color: #d05278;
@@ -2608,7 +2627,7 @@ blockquote,
         }
 
         &__name {
-          font-size: 20px;
+          font-size: 16px;
           line-height: 120%;
           margin-bottom: 8px;
         }
@@ -5555,7 +5574,7 @@ input[type='search']::-webkit-search-results-decoration {
 
   .products-item__name,
   .blog-item__title {
-    font-size: 22px;
+    font-size: 16px;
   }
 
   h4 {
@@ -5707,7 +5726,7 @@ input[type='search']::-webkit-search-results-decoration {
   }
 
   .products-item__name {
-    font-size: 20px;
+    font-size: 16px;
     margin-bottom: 0px;
   }
 
@@ -6402,8 +6421,13 @@ input[type='search']::-webkit-search-results-decoration {
     margin-bottom: 10px;
   }
 
-  .shop-aside__item ul li a {
-    padding: 5px 0;
+  .shop-aside__item ul li span {
+    font-size: 16px;
+    line-height: 170%;
+    color: #666666;
+    display: block;
+    padding: 13px 0;
+    border-bottom: 1px solid #eeeeee;
   }
 
   .shop-aside__item {
@@ -6515,6 +6539,7 @@ input[type='search']::-webkit-search-results-decoration {
 
     .btn {
       width: 100%;
+      white-space: nowrap;
 
       &:first-of-type {
         margin-bottom: 10px;

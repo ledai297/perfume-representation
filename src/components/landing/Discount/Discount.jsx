@@ -12,11 +12,10 @@ export const Discount = () => {
           <div className='discount-info'>
             <span className='saint-text'>Discount</span>
             <span className='main-text'>
-              Get Your <span>50%</span> Off
+              Ưu đãi lên tới<span>50%</span>
             </span>
             <p>
-              Nourish your skin with toxin-free cosmetic products. With the
-              offers that you can’t refuse.
+              Luôn nhận được sự tin cậy từ khách hàng.
             </p>
 
             <Link href='/shop'>

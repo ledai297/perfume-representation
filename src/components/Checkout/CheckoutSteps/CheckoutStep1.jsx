@@ -11,34 +11,34 @@ export const CheckoutStep1 = ({ onNext }) => {
       <div className='checkout-form'>
         <form onClick={(e) => e.preventDefault()}>
           <div className='checkout-form__item'>
-            <h4>Info about you</h4>
+            <h4>Thông tin khách hàng</h4>
             <div className='box-field'>
               <input
                 type='text'
                 className='form-control'
-                placeholder='Enter your name'
+                placeholder='Tên'
               />
             </div>
-            <div className='box-field'>
+            {/* <div className='box-field'>
               <input
                 type='text'
                 className='form-control'
                 placeholder='Enter your last name'
               />
-            </div>
+            </div> */}
             <div className='box-field__row'>
               <div className='box-field'>
                 <input
                   type='tel'
                   className='form-control'
-                  placeholder='Enter your phone'
+                  placeholder='Số điện thoại'
                 />
               </div>
               <div className='box-field'>
                 <input
                   type='email'
                   className='form-control'
-                  placeholder='Enter your mail'
+                  placeholder='Email'
                 />
               </div>
             </div>
@@ -93,11 +93,11 @@ export const CheckoutStep1 = ({ onNext }) => {
                 placeholder='Order note'
               ></textarea>
             </div>
-            <label className='checkbox-box checkbox-box__sm'>
+            {/* <label className='checkbox-box checkbox-box__sm'>
               <input type='checkbox' />
               <span className='checkmark'></span>
               Create an account
-            </label>
+            </label> */}
           </div>
           <div className='checkout-buttons'>
             {/* <button className='btn btn-grey btn-icon'>

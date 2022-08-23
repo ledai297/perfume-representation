@@ -47,7 +47,7 @@ export const Header = () => {
       <header className='header'>
         {promo && (
           <div className='header-top'>
-            <span>30% OFF ON ALL PRODUCTS ENTER CODE: beshop2020</span>
+            <span>9/9 Flash sale up to 50%: Ribi comestic </span>
             <i
               onClick={() => setPromo(false)}
               className='header-top-close js-header-top-close icon-close'
@@ -58,7 +58,7 @@ export const Header = () => {
           <div className='header-logo'>
             <Link href='/'>
               <a>
-                <img src={header.logo} alt='' />
+                <img src="https://cf.shopee.vn/file/5f26c1d13e3d864eb9b9fc15906d3daa_tn" alt='' style={{ width: '80px', borderRadius: '80px' }} />
               </a>
             </Link>
           </div>
@@ -67,27 +67,27 @@ export const Header = () => {
             <Nav navItem={navItem} />
             {/* header options */}
             <ul className='header-options'>
-              <li>
+              {/* <li>
                 <Link href='/faq'>
                   <a>
                     <i className='icon-search'></i>
                   </a>
                 </Link>
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <Link href='/profile'>
                   <a>
                     <i className='icon-user'></i>
                   </a>
                 </Link>
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <Link href='/wishlist'>
                   <a>
                     <i className='icon-heart'></i>
                   </a>
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link href='/cart'>
                   <a>

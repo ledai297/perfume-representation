@@ -5,74 +5,98 @@ import productData from 'data/product/product';
 import Slider from 'rc-slider';
 import { useEffect, useState } from 'react';
 import Dropdown from 'react-dropdown';
-import { get } from 'service/httpClient';
+import brandService from 'service/brand/brandService';
+import CategoryService from 'service/category/CategoryService';
+import ProductService from 'service/product/ProductService';
 import { AsideItem } from '../shared/AsideItem/AsideItem';
+import { StorageUtils } from 'utils/StorageUtils';
 
 // React Range
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
 const options = [
-  { value: 'highToMin', label: 'From expensive to cheap' },
-  { value: 'minToHigh', label: 'From cheap to expensive' },
+  { value: 'minPrice:asc', label: 'Giá: Thấp đến Cao ' },
+  { value: 'maxPrice:desc', label: 'Giá: Cao đến Thấp' },
 ];
 export const Shop = () => {
   const allProducts = [...productData];
-
-  const [productOrder, setProductOrder] = useState(
-    allProducts.sort((a, b) => (a.price < b.price ? 1 : -1))
+  const [ categories, setCategories ] = useState([]);
+  const [ brands, setBrands ] = useState([]);
+  const recentlyViewed = StorageUtils.recentlyViewedProducts();
+  const todaysTop = [...productData].slice(3, 6);
+  const [products, setProducts] = useState([]);
+  const paginate = usePagination(products, 10);
+  const [filter, setFilter] = useState(
+    {
+      brandIds: [],
+      categoryIds: [],
+      keyword: "",
+      priceFrom: 0,
+      priceTo: null,
+      pageNo: 0,
+      pageSize: 10,
+      sort: "createdAt:desc"
+    }
   );
-
-  const [products, setProducts] = useState([...productOrder]);
-  const [filter, setFilter] = useState({ isNew: false, isSale: true });
-
-  useEffect(() => {
-    setProducts(productOrder);
-  }, [productOrder]);
+  var priceChangeTimer = null;
+  var keywordChangeTimer = null;
 
   useEffect(() => {
-    debugger
-    fetchProducts();
+    fetchProducts(filter);
+  }, [filter?.categoryIds, filter?.brandIds, filter?.sort, filter.priceFrom, filter.priceTo, filter.keyword])
+
+  useEffect(() => {
+    fetchProducts(filter);
+    fetchCategories();
+    fetchBrands();
   }, []);
 
-  useEffect(() => {
-    if (filter.isNew && filter.isSale) {
-      const newPro = productOrder.filter(
-        (pd) => pd.isNew === true && pd.isSale === true
-      );
-      setProducts(newPro);
-    } else if (filter.isNew && !filter.isSale) {
-      const newPro = productOrder.filter((pd) => pd.isNew === true);
-      setProducts(newPro);
-    } else if (filter.isSale && !filter.isNew) {
-      const newPro = productOrder.filter((pd) => pd.isSale === true);
-      setProducts(newPro);
-    } else {
-      setProducts([...productOrder]);
-    }
-  }, [filter, productOrder]);
-
-  const fetchProducts = async () => {
+  const fetchProducts = async (filterParams) => {
     try {
-      const response = await get('/products', {});
+      const response = await ProductService.filterProducts(filterParams);
+      setProducts(response?.data?.content || []);
     } catch (error) {
 
     }
   }
 
-  const recentlyViewed = [...productData].slice(0, 3);
-  const todaysTop = [...productData].slice(3, 6);
-  const paginate = usePagination(products, 9);
+  const fetchCategories = async () => {
+    try {
+      const response = await CategoryService.filterCategories();
+      setCategories(response.data)
+    } catch (error) {
+
+    }
+  }
+
+  const fetchBrands = async () => {
+    try {
+      const response = await brandService.filterBrands();
+      setBrands(response?.data || [])
+    } catch (error) {
+
+    }
+  }
 
   const handleSort = (value) => {
-    if (value === 'highToMin') {
-      const newOrder = allProducts.sort((a, b) => (a.price < b.price ? 1 : -1));
-      setProductOrder(newOrder);
-    }
-    if (value === 'minToHigh') {
-      const newOrder = allProducts.sort((a, b) => (a.price > b.price ? 1 : -1));
-      setProductOrder(newOrder);
-    }
+    setFilter({ ...filter, sort: value})
   };
+
+  const handleChangeCategory = (category) => {
+    setFilter({ ...filter, categoryIds: [category?.id]});
+  }
+
+  const handleChangeBrand = (brand) => {
+    setFilter({ ...filter, brandIds: [brand?.id]});
+  }
+
+  const handleChangeKeyword = (e) => {
+    clearTimeout(keywordChangeTimer);
+    const newKeyword = e.target.value;
+    keywordChangeTimer = setTimeout(() => {
+      setFilter({ ...filter, keyword: newKeyword });
+    }, 200);
+  }
 
   return (
     <div>
@@ -87,42 +111,36 @@ export const Shop = () => {
                   type='search'
                   className='form-control'
                   placeholder='Search'
+                  onChange={handleChangeKeyword}
                 />
                 <i className='icon-search'></i>
               </div>
               <div className='shop-aside__item'>
                 <span className='shop-aside__item-title'>Categories</span>
                 <ul>
-                  <li>
-                    <a href='#'>
-                      Make up <span>(37)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href='#'>
-                      SPA <span>(162)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href='#'>
-                      Perfume <span>(153)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href='#'>
-                      Nails <span>(86)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href='#'>
-                      Skin care <span>(48)</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href='#'>
-                      Hair care <span>(54)</span>
-                    </a>
-                  </li>
+                  {
+                    categories?.map((cate) => (
+                      <li>
+                        <span onClick={() => handleChangeCategory(cate)} className={`${filter?.categoryIds?.includes(cate?.id) ? 'active' : ''}`}>
+                          {cate?.name}
+                        </span>
+                      </li>
+                    ))
+                  }
+                </ul>
+              </div>
+              <div className='shop-aside__item'>
+                <span className='shop-aside__item-title'>Thương hiệu</span>
+                <ul>
+                  {
+                    brands?.map((brand) => (
+                      <li>
+                        <span onClick={() => handleChangeBrand(brand)}  className={`${filter?.brandIds?.includes(brand?.id) ? 'active' : ''}`}>
+                          {brand?.name}
+                        </span>
+                      </li>
+                    ))
+                  }
                 </ul>
               </div>
               <div className='shop-aside__item'>
@@ -130,10 +148,19 @@ export const Shop = () => {
                 <div className='range-slider'>
                   <Range
                     min={0}
-                    max={20}
-                    defaultValue={[0, 20]}
-                    tipFormatter={(value) => `${value}$`}
+                    max={5000000}
+                    defaultValue={[0, 5000000]}
+                    tipFormatter={(value) => `${value.toLocaleString("ja")}đ`}
                     allowCross={false}
+                    onChange={(range) => {
+                      const priceFrom = range[0];
+                      const priceTo = range[1];
+                      clearTimeout(priceChangeTimer);
+
+                      priceChangeTimer = setTimeout(() => {
+                        setFilter({ ...filter, priceFrom, priceTo });
+                      }, 500);
+                    }}
                     tipProps={{
                       placement: 'bottom',
                       prefixCls: 'rc-slider-tooltip',
@@ -141,24 +168,32 @@ export const Shop = () => {
                   />
                 </div>
               </div>
-              <div className='shop-aside__item'>
-                <span className='shop-aside__item-title'>You have viewed</span>
-                {recentlyViewed.map((data) => (
-                  <AsideItem key={data.id} aside={data} />
-                ))}
-              </div>
-              <div className='shop-aside__item'>
-                <span className='shop-aside__item-title'>Top 3 for today</span>
-                {todaysTop.map((data) => (
-                  <AsideItem key={data.id} aside={data} />
-                ))}
-              </div>
+              {
+                recentlyViewed ? (
+                  <div className='shop-aside__item'>
+                  <span className='shop-aside__item-title'>Best seller</span>
+                  {recentlyViewed?.map((data) => (
+                    <AsideItem key={data.id} aside={data} />
+                  )) || null}
+                </div>
+                ) : null
+              }
+              {
+                recentlyViewed ? (
+                  <div className='shop-aside__item'>
+                    <span className='shop-aside__item-title'>Sản phẩm vừa xem</span>
+                    {recentlyViewed?.map((data) => (
+                      <AsideItem key={data.id} aside={data} />
+                    ))}
+                  </div>
+                ) : null
+              }
             </div>
             {/* <!-- Shop Main --> */}
             <div className='shop-main'>
               <div className='shop-main__filter'>
                 <div className='shop-main__checkboxes'>
-                  <label className='checkbox-box'>
+                  {/* <label className='checkbox-box'>
                     <input
                       checked={filter.isSale}
                       onChange={() =>
@@ -179,7 +214,7 @@ export const Shop = () => {
                     />
                     <span className='checkmark'></span>
                     NEW
-                  </label>
+                  </label> */}
                 </div>
                 <div className='shop-main__select'>
                   <Dropdown
@@ -195,7 +230,7 @@ export const Shop = () => {
               </div>
 
               {/* <!-- PAGINATE LIST --> */}
-              <PagingList paginate={paginate} />
+              {/* <PagingList paginate={paginate} /> */}
             </div>
           </div>
         </div>

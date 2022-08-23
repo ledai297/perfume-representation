@@ -5,11 +5,8 @@ import Link from 'next/link';
 import { NavCol } from './NavCol/NavCol';
 
 export const Footer = () => {
-  const footerLogo = '/assets/img/footer-logo.svg';
-
   const footerNav = [...footerNavData];
   const footerSocial = [...socialData];
-  const paymentMethods = [...paymentMethodData];
 
   return (
     <>
@@ -22,7 +19,7 @@ export const Footer = () => {
               <ul>
                 {footerSocial.map((social, index) => (
                   <li key={index}>
-                    <a href={social.path}>
+                    <a href={social.path} target="_blank">
                       <i className={social.icon}></i>
                     </a>
                   </li>
@@ -32,20 +29,19 @@ export const Footer = () => {
             <div className='footer-top__logo'>
               <Link href='/'>
                 <a>
-                  <img src={footerLogo} className='js-img' alt='' />
+                  {/* <img src={footerLogo} className='js-img' alt='' /> */}
+                  <h4 style={ {color: 'white' }}>-𝕽𝖎𝖇𝖎- 𝕮𝖔𝖘𝖒𝖊𝖙𝖎𝖈𝖘</h4>
                 </a>
               </Link>
             </div>
 
             {/* Payment method */}
             <div className='footer-top__payments'>
-              <span>Payment methods:</span>
+              <span>Xem thêm tại:</span>
               <ul>
-                {paymentMethods.map((payment, index) => (
-                  <li key={index}>
-                    <img src={payment.icon} className='js-img' alt='' />
+                  <li key={1} onClick={() => window.open("https://shopee.vn/ribicosmetics", "_target")}>
+                    <img style={{ width: '80px', }} src="https://i.pinimg.com/564x/a0/f1/8d/a0f18d53895806b098258ed4cefb920d.jpg" className='js-img' alt='' />
                   </li>
-                ))}
               </ul>
             </div>
           </div>
@@ -58,25 +54,23 @@ export const Footer = () => {
               <span className='footer-nav__col-title'>Contact</span>
               <ul>
                 <li>
-                  <i className='icon-map-pin'></i> 27 Division St, New York, NY
-                  10002, USA
+                  <i className='icon-map-pin'></i> Tòa V2 Victoria Văn Phú, Hà Đông, Hà Nội.
                 </li>
                 <li>
                   <i className='icon-smartphone'></i>
                   <div className='footer-nav__col-phones'>
-                    <a href='tel:+13459971345'>+1 345 99 71 345</a>
-                    <a href='tel:+13457464975'>+1 345 74 64 975</a>
+                    <a href='tel:+13459971345'>0907 199 863</a>
                   </div>
                 </li>
                 <li>
                   <i className='icon-mail'></i>
-                  <a href='mailto:info@beshop.com'>info@beshop.com</a>
+                  <a href='mailto:info@beshop.com'>Ribicomestic@gmail.com</a>
                 </li>
               </ul>
             </div>
           </div>
           <div className='footer-copy'>
-            <span>&copy; All rights reserved. BeShop 2020</span>
+            <span>&copy; All rights reserved. Ribicomestic 2022</span>
           </div>
         </div>
       </footer>

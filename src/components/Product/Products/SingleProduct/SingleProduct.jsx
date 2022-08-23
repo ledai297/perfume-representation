@@ -14,7 +14,7 @@ export const SingleProduct = ({
       {/* <!-- BEING SINGLE PRODUCT ITEM --> */}
       <div className='products-item'>
         <div className='products-item__type'>
-          {isSale && <span className='products-item__sale'>sale</span>}
+          <span className='products-item__sale'>sale</span>
           {isNew && <span className='products-item__new'>new</span>}
         </div>
         <div className='products-item__img'>
@@ -46,7 +46,7 @@ export const SingleProduct = ({
             </a>
           </Link>
           <span className='products-item__cost'>
-            <span>{oldPrice && `$${oldPrice}`}</span> đ{minPrice?.toLocaleString("ja")} - đ{maxPrice?.toLocaleString('ja')}
+            <span>{oldPrice && `$${oldPrice}`}</span>{minPrice?.toLocaleString("ja")}đ - {maxPrice?.toLocaleString('ja')}đ
           </span>
         </div>
       </div>

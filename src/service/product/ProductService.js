@@ -1,9 +1,9 @@
 import { getApi } from "service/httpClient";
 
 const ProductService = {
-    filterProducts: async () => {
+    filterProducts: async (filterParams) => {
         try {
-            const response = await getApi("/products");
+            const response = await getApi("/products", filterParams);
             return response;
         } catch (error) {
             throw error;

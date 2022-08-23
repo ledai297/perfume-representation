@@ -1,7 +1,24 @@
 import { Card } from './Card/Card';
-import advantagesData from 'data/advantage/advantage';
 
 export const Advantage = () => {
+  const advantagesData = [
+    {
+      title: "Chính hãng",
+      body: ""
+    },
+    {
+      title: "3 ngày đổi trả",
+      body: ""
+    },
+    {
+      title: "Tư vấn 24/7",
+      body: ""
+    },
+    {
+      title: "Quà tặng",
+      body: ""
+    }
+  ]
   const advantages = [...advantagesData];
   return (
     <>

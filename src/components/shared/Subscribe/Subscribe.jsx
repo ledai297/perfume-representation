@@ -13,14 +13,14 @@ export const Subscribe = () => {
               />
             </div>
             <form>
-              <h3>Stay in touch</h3>
-              <p>Nourish your skin with toxin-free cosmetic roducts.</p>
+              <h3>Nhận tư vấn</h3>
+              <p>Để lại số điện thoại, đội ngũ chăm sóc khách hàng của chúng tôi sẽ liên lạc lại với bạn.</p>
               <div className='box-field__row'>
                 <div className='box-field'>
                   <input
                     type='email'
                     className='form-control'
-                    placeholder='Enter your email'
+                    placeholder='Số điện thoại'
                   />
                 </div>
                 <button type='submit' className='btn'>

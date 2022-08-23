@@ -1,17 +1,17 @@
 [
   {
-    "step": "Free Shipping",
-    "title": "World wide",
+    "step": "Miễn phí vận chuyển",
+    "title": "Toàn quốc",
     "icon": "icon-shipping"
   },
   {
-    "step": "Helpline",
-    "title": "+1 345 99 71 345",
+    "step": "Hotline",
+    "title": "0907 199 863",
     "icon": "icon-helpline"
   },
   {
-    "step": "Customer Support",
-    "title": "Finish!",
+    "step": "Chăm sóc khách hàng",
+    "title": "24/7!",
     "icon": "icon-24"
   }
 ]

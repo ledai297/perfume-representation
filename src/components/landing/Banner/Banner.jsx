@@ -7,11 +7,12 @@ export const Banner = () => {
       <div className='main-block load-bg'>
         <div className='wrapper'>
           <div className='main-block__content'>
-            <span className='saint-text'>Professional</span>
-            <h1 className='main-text'>Beauty &amp; Care</h1>
-            <p>
-              Nourish your skin with toxin-free cosmetic products. With the
-              offers that you can’t refuse.
+            <span className='saint-text'>-𝕽𝖎𝖇𝖎- 𝕮𝖔𝖘𝖒𝖊𝖙𝖎𝖈𝖘</span>
+            <h1 className='main-text'>Perfume &amp; Care</h1>
+            <p  style={{ color: '#0e0e0e' }}>
+              Dùng nước hoa bạn có thêm 99% sự quyến rũ.
+              <br />
+              <h4>Ưu đãi vô cực</h4>
             </p>
 
             <Link href='/shop'>

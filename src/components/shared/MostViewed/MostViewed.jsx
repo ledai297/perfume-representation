@@ -1,10 +1,11 @@
 import { ProductsCarousel } from 'components/Product/Products/ProductsCarousel';
 import { SectionTitle } from 'components/shared/SectionTitle/SectionTitle';
-import productData from 'data/product/product';
+import { StorageUtils } from 'utils/StorageUtils';
 
 export const MostViewed = ({ additionalClass }) => {
-  const mostViewed = [...productData].slice(0, 6);
+  const mostViewed = StorageUtils.recentlyViewedProducts();
 
+  console.log('mostViewed', mostViewed);
   return (
     <>
       {/* <!-- BEGIN MOST VIEWED --> */}
