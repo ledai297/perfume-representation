@@ -2,7 +2,7 @@ const axios = require('axios').default;
 const qs = require("query-string");
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8080/api',
+    baseURL: 'https://perfume-service.azurewebsites.net/api',
     timeout: 30000,
     headers: {
         'X-Custom-Header': 'foobar',
