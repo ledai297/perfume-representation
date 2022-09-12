@@ -20,6 +20,57 @@
   -ms-flex-pack: start;
 }
 
+.call-now {
+  z-index: 1000;
+  width: 60px;
+  height: 60px;
+  position: fixed;
+  bottom: 30px;
+  right: 10px;
+}
+
+.shopee-logo-fixed {
+  z-index: 1001;
+  width: 60px;
+  height: 60px;
+  position: fixed;
+  bottom: 100px;
+  right: 10px;
+}
+
+.shake {
+  animation: shake 1.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.shake {
+  -webkit-animation-name: spaceboots;
+  -webkit-animation-duration: 0.8s;
+  -webkit-transform-origin: 50% 50%;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+}
+
+@keyframes spaceboots {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
 .wrapper {
   min-width: $min-width;
   max-width: $max-width;

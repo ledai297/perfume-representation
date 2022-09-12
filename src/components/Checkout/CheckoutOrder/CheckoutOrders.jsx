@@ -13,30 +13,28 @@ export const CheckoutOrders = () => {
   return (
     <>
       <div className='checkout-order'>
-        <h5>Your Order</h5>
+        <h5>Thông tin đơn hàng của bạn</h5>
         {cart.map((order) => (
           <Card key={order.id} order={order} />
         ))}
       </div>
       <div className='cart-bottom__total'>
-        <div className='cart-bottom__total-goods'>
-          Goods on
-          <span>${total.toFixed(2)}</span>
-        </div>
-        <div className='cart-bottom__total-promo'>
+        {/* <div className='cart-bottom__total-goods'>
+          <span>VNĐ{total?.toLocaleString("ja") || 0}</span>
+        </div> */}
+        {/* <div className='cart-bottom__total-promo'>
           Discount on promo code
           <span>No</span>
-        </div>
-        <div className='cart-bottom__total-delivery'>
+        </div> */}
+        {/* <div className='cart-bottom__total-delivery'>
           Delivery{' '}
           <span className='cart-bottom__total-delivery-date'>
             (Aug 28,2020 at 11:30)
           </span>
-          <span>$30</span>
-        </div>
+        </div> */}
         <div className='cart-bottom__total-num'>
-          total:
-          <span>${(total + 30).toFixed(2)}</span>
+          Tổng tiền:
+          <span>VNĐ{(total)?.toLocaleString("ja") || 0}</span>
         </div>
       </div>
     </>

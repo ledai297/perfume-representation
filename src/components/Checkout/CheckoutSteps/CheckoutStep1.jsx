@@ -43,28 +43,29 @@ export const CheckoutStep1 = ({ onNext }) => {
               </div>
             </div>
           </div>
-          <div className='checkout-form__item'>
-            <h4>Delivery Info</h4>
+          {/* <div className='checkout-form__item'>
+            <h4>Thông tin giao hàng</h4>
 
-            <Dropdown
-              options={countries}
-              className='react-dropdown'
-              onChange={(option) => console.log(option.value)}
-              placeholder='Select a country'
-            />
             <div className='box-field__row'>
-              <div className='box-field'>
+            <div className='box-field'>
                 <input
                   type='text'
                   className='form-control'
-                  placeholder='Enter the city'
+                  placeholder='Số điện thoại'
                 />
               </div>
               <div className='box-field'>
                 <input
                   type='text'
                   className='form-control'
-                  placeholder='Enter the address'
+                  placeholder='Nhập tỉnh'
+                />
+              </div>
+              <div className='box-field'>
+                <input
+                  type='text'
+                  className='form-control'
+                  placeholder='Quận/huyện'
                 />
               </div>
             </div>
@@ -73,24 +74,24 @@ export const CheckoutStep1 = ({ onNext }) => {
                 <input
                   type='text'
                   className='form-control'
-                  placeholder='Delivery day'
+                  placeholder='Phường xã'
                 />
               </div>
               <div className='box-field'>
                 <input
                   type='text'
                   className='form-control'
-                  placeholder='Delivery time'
+                  placeholder='Địa chỉ chi tiết'
                 />
               </div>
             </div>
-          </div>
+          </div> */}
           <div className='checkout-form__item'>
-            <h4>Note</h4>
+            <h4>Ghi chú</h4>
             <div className='box-field box-field__textarea'>
               <textarea
                 className='form-control'
-                placeholder='Order note'
+                placeholder='Ghi chú'
               ></textarea>
             </div>
             {/* <label className='checkbox-box checkbox-box__sm'>

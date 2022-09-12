@@ -4,19 +4,14 @@ export const CheckoutStep3 = () => {
       {/* <!-- BEING CHECKOUT STEP Three -->  */}
       <div className='checkout-purchase checkout-form'>
         <h4>
-          BeShop thanks
+          -𝕽𝖎𝖇𝖎- 𝕮𝖔𝖘𝖒𝖊𝖙𝖎𝖈𝖘 
           <br />
-          you for your purchase!
+          Cảm ơn quí khách! 
         </h4>
         <p>
-          Consequat minim ipsum aliquip quis ullamco aliquip consequat aliquip
-          sit eu enim duis qui. Velit minim tempor non aliquip officia cillum.
-          Irure Lorem do enim sint in commodo. Ea ea nostrud labore mollit nisi.
-          Cupidatat esse minim mollit qui velit esse voluptate. Excepteur ad
-          officia dolore amet magna ipsum dolor incididunt excepteur ad non. Ea
-          ea qui irure excepteur est consectetur amet est exercitation in.
+          Bạn thân mến! Mình chỉ muốn cảm ơn bạn bởi bạn là khách hàng quan trọng của chúng tôi. Nếu bạn có bất cứ điều gì hãy cho chúng tôi biết, chúng tôi sẽ cố gắng để đáp ứng nhu cầu của bạn.
         </p>
-        <ul className='checkout-purchase__list'>
+        {/* <ul className='checkout-purchase__list'>
           <li>
             <span>Order number</span>B-125724_75
           </li>
@@ -32,7 +27,7 @@ export const CheckoutStep3 = () => {
         </ul>
         <a href='#' className='checkout-purchase__link'>
           print a document -
-        </a>
+        </a> */}
       </div>
       {/* <!-- CHECKOUT STEP TWO EOF -->  */}
     </>

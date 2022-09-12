@@ -10,13 +10,13 @@ const detailBlocks = [
     title: 'Order Details',
     icon: 'icon-step1',
   },
+  // {
+  //   step: 'Step 2',
+  //   title: 'Payment method',
+  //   icon: 'icon-step2',
+  // },
   {
     step: 'Step 2',
-    title: 'Payment method',
-    icon: 'icon-step2',
-  },
-  {
-    step: 'Step 3',
     title: 'Finish!',
     icon: 'icon-step3',
   },
@@ -73,11 +73,11 @@ export const Checkout = () => {
               switch (activeStep) {
                 case 1:
                   return <CheckoutStep1 onNext={handleNext} />;
+                // case 2:
+                //   return (
+                //     <CheckoutStep2 onNext={handleNext} onPrev={handlePrev} />
+                //   );
                 case 2:
-                  return (
-                    <CheckoutStep2 onNext={handleNext} onPrev={handlePrev} />
-                  );
-                case 3:
                   return <CheckoutStep3 />;
 
                 default:

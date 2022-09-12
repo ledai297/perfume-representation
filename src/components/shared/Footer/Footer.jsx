@@ -40,7 +40,7 @@ export const Footer = () => {
               <span>Xem thêm tại:</span>
               <ul>
                   <li key={1} onClick={() => window.open("https://shopee.vn/ribicosmetics", "_target")}>
-                    <img style={{ width: '80px', }} src="https://i.pinimg.com/564x/a0/f1/8d/a0f18d53895806b098258ed4cefb920d.jpg" className='js-img' alt='' />
+                    <img style={{ width: '80px', }} src="/assets/img/shopee-logo.png" className='js-img' alt='' />
                   </li>
               </ul>
             </div>

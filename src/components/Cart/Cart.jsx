@@ -57,7 +57,7 @@ export const Cart = () => {
           </div>
           <div className='cart-bottom'>
             <div className='cart-bottom__promo'>
-              <form className='cart-bottom__promo-form'>
+              {/* <form className='cart-bottom__promo-form'>
                 <div className='box-field__row'>
                   <div className='box-field'>
                     <input
@@ -70,13 +70,10 @@ export const Cart = () => {
                     apply code
                   </button>
                 </div>
-              </form>
-              <h6>How to get a promo code?</h6>
+              </form> */}
+              <h6>MÃ GIẢM GIÁ CỦA SHOP</h6>
               <p>
-                Follow our news on the website, as well as subscribe to our
-                social networks. So you will not only be able to receive
-                up-to-date codes, but also learn about new products and
-                promotional items.
+                Theo dõi chúng tôi trên shopee và nhận những voucher giảm giá của shop ngay nha!!!
               </p>
               <div className='contacts-info__social'>
                 <span>Find us here:</span>
@@ -93,16 +90,15 @@ export const Cart = () => {
             </div>
             <div className='cart-bottom__total'>
               <div className='cart-bottom__total-goods'>
-                Goods on
-                <span>${total.toFixed(2)}</span>
+                <span>VNĐ{total?.toLocaleString("ja") || 0}</span>
               </div>
-              <div className='cart-bottom__total-promo'>
+              {/* <div className='cart-bottom__total-promo'>
                 Discount on promo code
                 <span>No</span>
-              </div>
+              </div> */}
               <div className='cart-bottom__total-num'>
-                total:
-                <span>${total.toFixed(2)}</span>
+                Tổng tiền:
+                <span>{total?.toLocaleString("ja") || 0}đ</span>
               </div>
               <Link href='/checkout'>
                 <a className='btn'>Checkout</a>

@@ -6,7 +6,7 @@ export const CheckoutStep2 = ({ onNext, onPrev }) => {
     <>
       {/* <!-- BEING CHECKOUT STEP TWO -->  */}
       <div className='checkout-payment checkout-form'>
-        <h4>Payment Methods</h4>
+        <h4>Phương thức thanh </h4>
         <div
           className={`checkout-payment__item ${
             payment === 'credit-card' && 'active'
