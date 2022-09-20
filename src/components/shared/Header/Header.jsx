@@ -4,6 +4,7 @@ import { header, navItem } from 'data/data.header';
 import Link from 'next/link';
 import { CartContext } from 'pages/_app';
 import { useContext, useEffect, useState } from 'react';
+import ProductService from 'service/product/ProductService';
 import { Nav } from './Nav/Nav';
 
 export const Header = () => {
@@ -12,14 +13,28 @@ export const Header = () => {
   const [fixedNav, setFixedNav] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [height, width] = useWindowSize();
+  const [ configuration, setConfiguration ] = useState();
 
   // For Fixed nav
   useEffect(() => {
     window.addEventListener('scroll', isSticky);
+
+    if (!configuration) {
+      fetchConfiguration();
+    }
     return () => {
       window.removeEventListener('scroll', isSticky);
     };
   });
+
+  const fetchConfiguration = async () => {
+    try {
+      const response = await ProductService.fetchConfiguration();
+      setConfiguration(response?.data);
+    } catch (error) {
+
+    }
+  }
 
   const isSticky = () => {
     const scrollTop = window.scrollY;
@@ -45,9 +60,11 @@ export const Header = () => {
     <>
       {/* <!-- BEGIN HEADER --> */}
       <header className='header'>
-        {promo && (
+        {configuration && (
           <div className='header-top'>
-            <span>9/9 Flash sale up to 50%: Ribi comestic </span>
+            {
+              <span>{configuration?.headerContent}</span>
+            }
             <i
               onClick={() => setPromo(false)}
               className='header-top-close js-header-top-close icon-close'

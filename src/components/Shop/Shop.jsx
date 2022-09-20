@@ -1,5 +1,4 @@
 import { Products } from 'components/Product/Products/Products';
-import { PagingList } from 'components/shared/PagingList/PagingList';
 import { usePagination } from 'components/utils/Pagination/Pagination';
 import productData from 'data/product/product';
 import Slider from 'rc-slider';
@@ -10,6 +9,7 @@ import CategoryService from 'service/category/CategoryService';
 import ProductService from 'service/product/ProductService';
 import { AsideItem } from '../shared/AsideItem/AsideItem';
 import { StorageUtils } from 'utils/StorageUtils';
+// import ConfigurationService from 'service/configuration/ConfigurationService';
 
 // React Range
 const { createSliderWithTooltip } = Slider;
@@ -54,6 +54,7 @@ export const Shop = () => {
   const fetchProducts = async (filterParams) => {
     try {
       const response = await ProductService.filterProducts(filterParams);
+      // const configuration = await ConfigurationService.fetchDetail();
       setProducts(response?.data?.content || []);
     } catch (error) {
 

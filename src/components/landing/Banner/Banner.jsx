@@ -1,10 +1,30 @@
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import ProductService from 'service/product/ProductService';
 
 export const Banner = () => {
+  
+  const [ configuration, setConfiguration ] = useState();
+
+  useEffect(() => {
+    fetchConfiguration();
+  }, []);
+
+  const fetchConfiguration = async () => {
+    try {
+      const response = await ProductService.fetchConfiguration();
+      setConfiguration(response?.data);
+    } catch (error) {
+
+    }
+  }
+
+  console.log('configuration: ', configuration)
+
   return (
     <>
       {/* <!-- BEGIN MAIN BLOCK --> */}
-      <div className='main-block load-bg'>
+      <div className='main-block load-bg' style={{ background: `url(${configuration?.bannerUrl})`}}>
         <div className='wrapper'>
           <div className='main-block__content'>
             <span className='saint-text'>-𝕽𝖎𝖇𝖎- 𝕮𝖔𝖘𝖒𝖊𝖙𝖎𝖈𝖘</span>
@@ -22,7 +42,7 @@ export const Banner = () => {
         </div>
         <img
           className='main-block__decor'
-          src='/assets/img/main-block-decor.png'
+          src={configuration?.bannerUrl}
           alt=''
         />
       </div>

@@ -16,6 +16,14 @@ const ProductService = {
         } catch (error) {
 
         }
+    },
+    fetchConfiguration: async () => {
+        try {
+            const response = await getApi(`/configuration`);
+            return response;
+        } catch (error) {
+
+        }
     }
 };
 
