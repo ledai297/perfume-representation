@@ -18,14 +18,14 @@ export const Header = () => {
   // For Fixed nav
   useEffect(() => {
     window.addEventListener('scroll', isSticky);
-
+    
     if (!configuration) {
       fetchConfiguration();
     }
     return () => {
       window.removeEventListener('scroll', isSticky);
     };
-  });
+  }, []);
 
   const fetchConfiguration = async () => {
     try {
@@ -56,6 +56,8 @@ export const Header = () => {
       enableBodyScroll(document);
     }
   }, [openMenu, height]);
+
+  
   return (
     <>
       {/* <!-- BEGIN HEADER --> */}

@@ -3,10 +3,10 @@ import { CartContext } from 'pages/_app';
 import { useContext } from 'react';
 import { Card } from './Card/Card';
 
-export const CheckoutOrders = () => {
-  const { cart } = useContext(CartContext);
+export const CheckoutOrders = ({ cart }) => {
+  
   const total = cart.reduce(
-    (total, item) => total + Number(item.price) * Number(item.quantity),
+    (total, item) => total + Number(item?.variant?.price) * Number(item.quantity),
     0
   );
 
@@ -14,8 +14,8 @@ export const CheckoutOrders = () => {
     <>
       <div className='checkout-order'>
         <h5>Thông tin đơn hàng của bạn</h5>
-        {cart.map((order) => (
-          <Card key={order.id} order={order} />
+        {cart.map((item) => (
+          <Card key={item?.variant?.id} cartItem={item} />
         ))}
       </div>
       <div className='cart-bottom__total'>

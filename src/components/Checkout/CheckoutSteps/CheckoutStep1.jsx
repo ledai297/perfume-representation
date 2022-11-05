@@ -1,15 +1,42 @@
-import Dropdown from 'react-dropdown';
+import { CartContext } from 'pages/_app';
+import { useContext } from 'react';
+import { useForm } from 'react-hook-form';
 
-const countries = [
-  { label: 'Country 1', value: '1' },
-  { label: 'Country 2', value: '2' },
-];
 export const CheckoutStep1 = ({ onNext }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const { cart } = useContext(CartContext);
+
+  const handleNext = (data) => {
+    const orderLineItems = cart.map((item) => (
+      {
+        quantity: item.quantity,
+        variant: {
+          productName: item?.variant?.productName,
+          sku: item?.variant?.sku
+        }
+      }
+    ))
+    const orderInfo = {
+      customer: {
+        name: data.name,
+        email: data.email,
+        phoneNumber: data.phoneNumber 
+      },
+      note: data.note,
+      orderLineItems
+    }
+    onNext(orderInfo);
+  }
+
   return (
     <>
       {/* <!-- BEING CHECKOUT STEP ONE -->  */}
       <div className='checkout-form'>
-        <form onClick={(e) => e.preventDefault()}>
+        <form onSubmit={handleSubmit((data) => handleNext(data))}>
           <div className='checkout-form__item'>
             <h4>Thông tin khách hàng</h4>
             <div className='box-field'>
@@ -17,6 +44,7 @@ export const CheckoutStep1 = ({ onNext }) => {
                 type='text'
                 className='form-control'
                 placeholder='Tên'
+                {...register('name')}
               />
             </div>
             {/* <div className='box-field'>
@@ -32,6 +60,7 @@ export const CheckoutStep1 = ({ onNext }) => {
                   type='tel'
                   className='form-control'
                   placeholder='Số điện thoại'
+                  {...register('phoneNumber')}
                 />
               </div>
               <div className='box-field'>
@@ -39,26 +68,23 @@ export const CheckoutStep1 = ({ onNext }) => {
                   type='email'
                   className='form-control'
                   placeholder='Email'
+                  {...register('email')}
                 />
               </div>
             </div>
           </div>
-          {/* <div className='checkout-form__item'>
+          <div className='checkout-form__item'>
             <h4>Thông tin giao hàng</h4>
 
             <div className='box-field__row'>
             <div className='box-field'>
-                <input
-                  type='text'
-                  className='form-control'
-                  placeholder='Số điện thoại'
-                />
               </div>
               <div className='box-field'>
                 <input
                   type='text'
                   className='form-control'
                   placeholder='Nhập tỉnh'
+                  {...register('province')}
                 />
               </div>
               <div className='box-field'>
@@ -66,6 +92,7 @@ export const CheckoutStep1 = ({ onNext }) => {
                   type='text'
                   className='form-control'
                   placeholder='Quận/huyện'
+                  {...register('district')}
                 />
               </div>
             </div>
@@ -75,6 +102,7 @@ export const CheckoutStep1 = ({ onNext }) => {
                   type='text'
                   className='form-control'
                   placeholder='Phường xã'
+                  {...register('ward')}
                 />
               </div>
               <div className='box-field'>
@@ -82,16 +110,18 @@ export const CheckoutStep1 = ({ onNext }) => {
                   type='text'
                   className='form-control'
                   placeholder='Địa chỉ chi tiết'
+                  {...register('addressDetail')}
                 />
               </div>
             </div>
-          </div> */}
+          </div>
           <div className='checkout-form__item'>
             <h4>Ghi chú</h4>
             <div className='box-field box-field__textarea'>
               <textarea
                 className='form-control'
                 placeholder='Ghi chú'
+                {...register('note')}
               ></textarea>
             </div>
             {/* <label className='checkbox-box checkbox-box__sm'>
@@ -105,8 +135,8 @@ export const CheckoutStep1 = ({ onNext }) => {
               {' '}
               <i className='icon-arrow'></i> back
             </button> */}
-            <button onClick={onNext} className='btn btn-icon btn-next'>
-              next <i className='icon-arrow'></i>
+            <button type="submit" className='btn btn-icon btn-next'>
+              Tiếp tục <i className='icon-arrow'></i>
             </button>
           </div>
         </form>

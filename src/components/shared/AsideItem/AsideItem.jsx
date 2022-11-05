@@ -2,7 +2,6 @@ import Link from 'next/link';
 
 export const AsideItem = ({ aside }) => {
   const { id, imageUrls, name, minPrice, star } = aside;
-  console.log("aside: ",aside)
   return (
     <>
       {/* <!-- BEING SHOP ASIDE CARD  --> */}

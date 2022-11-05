@@ -8,7 +8,6 @@ export const SingleProduct = ({
 }) => {
   const { name, oldPrice, price, imageUrls, isSale, isNew, id, minPrice, maxPrice } = product;
   const firstImageUrl = imageUrls?.length > 0 ? imageUrls?.split(",")[0] : "";
-  console.log('product: ', product)
   return (
     <>
       {/* <!-- BEING SINGLE PRODUCT ITEM --> */}

@@ -1,6 +1,5 @@
 import { Products } from 'components/Product/Products/Products';
 import { usePagination } from 'components/utils/Pagination/Pagination';
-import productData from 'data/product/product';
 import Slider from 'rc-slider';
 import { useEffect, useState } from 'react';
 import Dropdown from 'react-dropdown';
@@ -9,6 +8,7 @@ import CategoryService from 'service/category/CategoryService';
 import ProductService from 'service/product/ProductService';
 import { AsideItem } from '../shared/AsideItem/AsideItem';
 import { StorageUtils } from 'utils/StorageUtils';
+import { useRouter } from 'next/router';
 // import ConfigurationService from 'service/configuration/ConfigurationService';
 
 // React Range
@@ -19,17 +19,16 @@ const options = [
   { value: 'maxPrice:desc', label: 'Giá: Cao đến Thấp' },
 ];
 export const Shop = () => {
-  const allProducts = [...productData];
   const [ categories, setCategories ] = useState([]);
   const [ brands, setBrands ] = useState([]);
   const recentlyViewed = StorageUtils.recentlyViewedProducts();
-  const todaysTop = [...productData].slice(3, 6);
   const [products, setProducts] = useState([]);
   const paginate = usePagination(products, 10);
+  const router = useRouter();
   const [filter, setFilter] = useState(
     {
-      brandIds: [],
-      categoryIds: [],
+      brandIds: "",
+      categoryIds: "",
       keyword: "",
       priceFrom: 0,
       priceTo: null,
@@ -38,18 +37,22 @@ export const Shop = () => {
       sort: "createdAt:desc"
     }
   );
-  var priceChangeTimer = null;
   var keywordChangeTimer = null;
 
-  useEffect(() => {
-    fetchProducts(filter);
-  }, [filter?.categoryIds, filter?.brandIds, filter?.sort, filter.priceFrom, filter.priceTo, filter.keyword])
+  // useEffect(() => {
+  //   fetchProducts(filter);
+  //   const queryParam = router.query;
+  // }, [filter?.categoryIds, filter?.brandIds, filter?.sort, filter.priceFrom, filter.priceTo, filter.keyword])
+
+    useEffect(() => {
+      fetchCategories();
+      fetchBrands();
+    }, []);
 
   useEffect(() => {
-    fetchProducts(filter);
-    fetchCategories();
-    fetchBrands();
-  }, []);
+    fetchProducts(router.query);
+    setFilter(router.query);
+  }, [router.query]);
 
   const fetchProducts = async (filterParams) => {
     try {
@@ -84,19 +87,51 @@ export const Shop = () => {
   };
 
   const handleChangeCategory = (category) => {
-    setFilter({ ...filter, categoryIds: [category?.id]});
+    const queryParams = {
+      ...router.query,
+      categoryIds: category.id
+    }
+    router.replace(parseQueryParamToUrlQueryString(queryParams));
   }
 
   const handleChangeBrand = (brand) => {
-    setFilter({ ...filter, brandIds: [brand?.id]});
+    const queryParams = {
+      ...router.query,
+      brandIds: brand.id
+    }
+    router.replace(parseQueryParamToUrlQueryString(queryParams));
   }
 
   const handleChangeKeyword = (e) => {
     clearTimeout(keywordChangeTimer);
     const newKeyword = e.target.value;
     keywordChangeTimer = setTimeout(() => {
-      setFilter({ ...filter, keyword: newKeyword });
+      const queryParams = router.query || {};
+      const newQueryParams = {
+        ...queryParams,
+        keyword: newKeyword
+      };
+      const urlWithQueryString = parseQueryParamToUrlQueryString(newQueryParams);
+      router.replace(urlWithQueryString);
     }, 200);
+  }
+
+  const handleChangePrices = (from, to) => {
+    const queryParams = {
+      ...router.query,
+      priceFrom: from || 0,
+      priceTo: to || null
+    }
+    setFilter(queryParams);
+    router.replace(parseQueryParamToUrlQueryString(queryParams));
+  }
+
+  const parseQueryParamToUrlQueryString = (params) => {
+    try {
+      return router.pathname + "?" + new URLSearchParams(params).toString();
+    } catch (error) {
+      return router.pathname;
+    }
   }
 
   return (
@@ -117,7 +152,7 @@ export const Shop = () => {
                 <i className='icon-search'></i>
               </div>
               <div className='shop-aside__item'>
-                <span className='shop-aside__item-title'>Categories</span>
+                <span className='shop-aside__item-title'>Danh mục</span>
                 <ul>
                   {
                     categories?.map((cate) => (
@@ -144,31 +179,32 @@ export const Shop = () => {
                   }
                 </ul>
               </div>
-              <div className='shop-aside__item'>
-                <span className='shop-aside__item-title'>Price</span>
-                <div className='range-slider'>
-                  <Range
-                    min={0}
-                    max={5000000}
-                    defaultValue={[0, 5000000]}
-                    tipFormatter={(value) => `${value.toLocaleString("ja")}đ`}
-                    allowCross={false}
-                    onChange={(range) => {
-                      const priceFrom = range[0];
-                      const priceTo = range[1];
-                      clearTimeout(priceChangeTimer);
-
-                      priceChangeTimer = setTimeout(() => {
-                        setFilter({ ...filter, priceFrom, priceTo });
-                      }, 500);
-                    }}
-                    tipProps={{
-                      placement: 'bottom',
-                      prefixCls: 'rc-slider-tooltip',
-                    }}
-                  />
-                </div>
-              </div>
+              {
+                (router.query && Object.keys(router.query) !== 0) && (
+                  <div className='shop-aside__item'>
+                    <span className='shop-aside__item-title'>Price</span>
+                    <div className='range-slider'>
+                      <Range
+                        min={0}
+                        max={2000000}
+                        defaultValue={[router.query?.priceFrom || 0, router.query?.priceTo || 2000000]}
+                        tipFormatter={(value) => `${value.toLocaleString("ja")}đ`}
+                        allowCross={false}
+                        onAfterChange={(range) => {
+                          const priceFrom = range[0];
+                          const priceTo = range[1];
+                          handleChangePrices( priceFrom, priceTo);
+                        }}
+                        
+                        tipProps={{
+                          placement: 'bottom',
+                          prefixCls: 'rc-slider-tooltip',
+                        }}
+                      />
+                    </div>
+                  </div>
+                )
+              }
               {
                 recentlyViewed ? (
                   <div className='shop-aside__item'>

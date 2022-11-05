@@ -3,6 +3,8 @@ import socialData from 'data/social';
 import { CartContext } from 'pages/_app';
 import { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { StorageUtils } from 'utils/StorageUtils';
+import router from 'next/router';
 
 export const Cart = () => {
   const { cart, setCart } = useContext(CartContext);
@@ -10,25 +12,36 @@ export const Cart = () => {
   const socialLinks = [...socialData];
 
   const total = cart.reduce(
-    (total, item) => total + Number(item.price) * Number(item.quantity),
+    (total, item) => total + Number(item?.variant?.price) * Number(item?.quantity),
     0
   );
 
-  const handleProductQuantity = (change, quantity, id) => {
-    console.log(change, quantity, id);
+  const handleProductQuantity = (change, quantity, variantId) => {
     if (change === 'increment') {
-      cart.find((item) => item.id === id).quantity = quantity + 1;
+      const index = cart?.findIndex((item) => item.variant.id === variantId);
+      cart[index].quantity += 1;
       setCount(count + 1);
+      StorageUtils.changeCartItemQuantity(variantId, 1);
     }
     if (change === 'decrement' && quantity > 1) {
-      cart.find((item) => item.id === id).quantity = quantity - 1;
-      setCount(count + 1);
+      const index = cart?.findIndex((item) => item.variant.id === variantId);
+      cart[index].quantity -= 1;
+      setCount(count - 1);
+      StorageUtils.changeCartItemQuantity(variantId, -1);
     }
   };
 
   useEffect(() => {
     setCart(cart);
   }, [cart, count]);
+
+  useEffect(() => {
+    const cart = StorageUtils.getCart();
+
+    if(!cart || cart?.length == 0) {
+      router.push("/")
+    }
+  }, []);
 
   return (
     <>
@@ -46,11 +59,9 @@ export const Cart = () => {
 
               {cart.map((item) => (
                 <Card
-                  onChangeQuantity={(change, quantity) =>
-                    handleProductQuantity(change, quantity, item.id)
-                  }
-                  key={item.id}
-                  cart={item}
+                  onChangeQuantity={handleProductQuantity}
+                  key={item.variant?.id}
+                  cartItem={item}
                 />
               ))}
             </div>
@@ -101,7 +112,7 @@ export const Cart = () => {
                 <span>{total?.toLocaleString("ja") || 0}đ</span>
               </div>
               <Link href='/checkout'>
-                <a className='btn'>Checkout</a>
+                <a className='btn'>Thanh toán</a>
               </Link>
             </div>
           </div>

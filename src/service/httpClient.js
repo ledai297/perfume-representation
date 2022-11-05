@@ -27,3 +27,17 @@ export const getApi = async (url, params) => {
         throw error;
     }
 }
+
+export const postApi = async (url, data) => {
+    try{
+        var response = await instance.post(url, {
+            method: 'post',
+            url,
+            data
+        });
+        return response;
+    }
+    catch(error){
+        throw error;
+    }
+}

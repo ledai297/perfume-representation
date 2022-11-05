@@ -47,17 +47,25 @@ export const ProductDetails = () => {
   }
 
   const handleAddToCart = () => {
-    const newProduct = { ...product, quantity: quantity };
-    const cartItem = {
+    const variant = {
       sku: variantSelected?.sku,
       name: product?.name,
       price: variantSelected?.price,
-      quantity: quantity,
-      image: product?.imageUrls?.split(",")[0],
+      imageUrl: product?.imageUrls?.split(",")[0],
       variantId: variantSelected?.id,
-      productId: product?.id
+      productId: product?.id,
+      volumn: variantSelected?.volume,
+      updatedAt: product?.updatedAt,
+      createdAt: product?.createdAt,
+      productName: product?.name
+    };
+//     quantity: quantity,
+    const cartItem = {
+      variant,
+      quantity
     };
     setCart([...cart, cartItem]);
+    StorageUtils.addVariantToCart(cartItem);
   };
   
   const renderProductDetail = () => {

@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { CartContext } from 'pages/_app';
+import { useContext, useEffect, useState } from 'react';
+import { StorageUtils } from 'utils/StorageUtils';
 import { CheckoutOrders } from './CheckoutOrder/CheckoutOrders';
 import { CheckoutStep1 } from './CheckoutSteps/CheckoutStep1';
-import { CheckoutStep2 } from './CheckoutSteps/CheckoutStep2';
 import { CheckoutStep3 } from './CheckoutSteps/CheckoutStep3';
+import router from 'next/router';
+import NotificationService from 'service/notification/NotificationService';
 
 const detailBlocks = [
   {
     step: 'Step 1',
-    title: 'Order Details',
+    title: 'Chi tiết đơn hàng',
     icon: 'icon-step1',
   },
   // {
@@ -16,21 +19,43 @@ const detailBlocks = [
   //   icon: 'icon-step2',
   // },
   {
-    step: 'Step 2',
-    title: 'Finish!',
+    step: 'Bước 2',
+    title: 'Hoàn tất!',
     icon: 'icon-step3',
   },
 ];
 
 export const Checkout = () => {
   const [activeStep, setActiveStep] = useState(1);
+  const { cart } = useContext(CartContext);
 
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
+  const handleNext = async (order) => {
+    try {
+      await NotificationService.notifyNewOrder(order);
+    } catch (error) {
+
+    } finally {
+      setActiveStep(activeStep + 1);
+    }
   };
   const handlePrev = () => {
     setActiveStep(activeStep - 1);
   };
+
+  useEffect(() => {
+    const cart = StorageUtils.getCart();
+
+    if(!cart || cart?.length == 0) {
+      router.push("/")
+    }
+  }, []);
+
+  useEffect(() => {
+    if(activeStep === 2) {
+      StorageUtils.resetCart();
+    }
+  }, [activeStep])
+
   return (
     <>
       <div className='wrapper'>
@@ -65,6 +90,10 @@ export const Checkout = () => {
         {/* <!-- DETAIL MAIN BLOCK EOF --> */}
       </div>
 
+      <div>
+        Tiếp tục mua hàng
+      </div>
+
       {/* <!-- BEGIN CHECKOUT --> */}
       <div className={`checkout ${activeStep == 2 && 'checkout-step2'}`}>
         <div className='wrapper'>
@@ -85,7 +114,7 @@ export const Checkout = () => {
               }
             })()}
             <div className='checkout-info'>
-              <CheckoutOrders />
+              <CheckoutOrders cart={cart} />
             </div>
           </div>
         </div>

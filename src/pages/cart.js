@@ -3,17 +3,17 @@ import { PublicLayout } from 'layout/PublicLayout';
 
 const breadcrumbsData = [
   {
-    label: 'Home',
+    label: 'Trang chủ',
     path: '/',
   },
   {
-    label: 'Cart',
+    label: 'Giỏ hàng',
     path: '/cart',
   },
 ];
 const CartPage = () => {
   return (
-    <PublicLayout breadcrumb={breadcrumbsData} breadcrumbTitle='Cart'>
+    <PublicLayout breadcrumb={breadcrumbsData} breadcrumbTitle='Giỏ hàng'>
       <Cart />
     </PublicLayout>
   );

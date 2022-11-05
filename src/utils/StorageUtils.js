@@ -26,5 +26,44 @@ export const StorageUtils = {
         }
 
         localStorage.setItem("recentlyViewedProducts", JSON.stringify(products));
+    },
+    addVariantToCart: (lineItem) => {
+        const cartStorage = localStorage.getItem("cart");
+
+        let cart = cartStorage ? JSON.parse(cartStorage) : [];
+        const itemIndex = cart.findIndex((item) => lineItem.variant?.id === item.variant.id);
+
+        if (itemIndex != -1) {
+            cart[itemIndex].quantity += 1;
+        } else {
+            cart = [ ...cart, lineItem];
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        return cart;
+    },
+    resetCart: () => {
+        if (localStorage.getItem("cart")) {
+            localStorage.removeItem("cart");
+        }
+    },
+    getCart: () => {
+        try {
+            const cartStorage = localStorage.getItem("cart");
+            return JSON.parse(cartStorage) || [];
+        } catch (error) {
+            return [];
+        }
+    },
+    changeCartItemQuantity: (variantId, value) => {
+        const cartStorage = localStorage.getItem("cart");
+        const cart = JSON.parse(cartStorage) || [];
+        if (cart?.length > 0) {
+            const index = cart.findIndex(item => item?.variant?.id === variantId);
+            cart[index].quantity += value;
+            localStorage.setItem("cart", JSON.stringify(cart));
+            return cart;
+        }
+
+        return [];
     }
 }
