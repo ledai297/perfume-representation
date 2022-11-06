@@ -321,7 +321,7 @@ export const ProductDetails = () => {
                     {/* <!-- Product Review Form --> */}
                     {/* <ReviewFrom /> */}
                     <div className='tab-cont'>
-                      <p>{product.description}</p>
+                      <div dangerouslySetInnerHTML={{__html: product?.description}} />
                     </div>
                   </div>
                 )}
