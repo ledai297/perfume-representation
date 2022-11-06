@@ -3,10 +3,13 @@ import productData from 'data/product/product';
 import NotificationService from 'service/notification/NotificationService';
 import { useForm } from "react-hook-form";
 import NotificationService from 'service/notification/NotificationService';
+import { useState } from 'react';
 
 export const ProfileAside = () => {
   const recentlyViewed = [...productData].slice(0, 3);
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const [ subcribeSucessfullly, setSubcribeSuccessfully ] = useState(false);
+
   const subcribe = async (values) => {
     try {
       const data = {
@@ -15,6 +18,7 @@ export const ProfileAside = () => {
         email: ''
       }
       await NotificationService.subcribe(data);
+      setSubcribeSuccessfully(true);
     } catch(error) {
 
     }
@@ -31,7 +35,8 @@ export const ProfileAside = () => {
               className='form-control'
               placeholder='Số điện thoại'
             />
-            {errors.phoneNumber && <p role="alert">{errors.phoneNumber?.message}</p>}
+            {errors.phoneNumber && <p role="alert" className="form-item-error">{errors.phoneNumber?.message}</p>}
+            {subcribeSucessfullly && <p role="alert" className="subcribe-sucessfullly">Cảm ơn bạn đã đăng ký, mình sẽ liên lạc lại với bạn sau nha!!!</p>}
           </div>
           <button onClick={subcribe} className='btn'>
             Nhận tư vấn
