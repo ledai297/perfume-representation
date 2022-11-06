@@ -6,6 +6,8 @@ import { CartContext } from 'pages/_app';
 import { useContext, useEffect, useState } from 'react';
 import ProductService from 'service/product/ProductService';
 import { Nav } from './Nav/Nav';
+import brandService from 'service/brand/brandService';
+import categoryService from 'service/category/CategoryService';
 
 export const Header = () => {
   const { cart } = useContext(CartContext);
@@ -14,11 +16,12 @@ export const Header = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const [height, width] = useWindowSize();
   const [ configuration, setConfiguration ] = useState();
+  const [ navItems, setNavItems ] = useState(navItem);
 
   // For Fixed nav
   useEffect(() => {
     window.addEventListener('scroll', isSticky);
-    
+    fetchNavItemData();
     if (!configuration) {
       fetchConfiguration();
     }
@@ -31,6 +34,28 @@ export const Header = () => {
     try {
       const response = await ProductService.fetchConfiguration();
       setConfiguration(response?.data);
+    } catch (error) {
+
+    }
+  }
+
+  const fetchNavItemData = async () => {
+    try {
+      const brandResponse = await brandService.filterBrands();
+      const categoriesResponse = await categoryService.filterCategories();
+      const currentNavItems = { ...navItems };
+      const brandSubNav = brandResponse.data?.map((item) => ({
+        name: item?.name,
+        path: `/shop?brandIds=${item.id}`,
+      }));
+      const categorySubNav = categoriesResponse.data?.map((item) => ({
+        name: item?.name,
+        path: `/shop?categoryIds=${item.id}`,
+      }));
+      
+      currentNavItems[1].subNav = brandSubNav;
+      currentNavItems[2].subNav = categorySubNav;
+      setNavItems(currentNavItems);
     } catch (error) {
 
     }

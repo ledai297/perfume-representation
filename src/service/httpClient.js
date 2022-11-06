@@ -30,11 +30,7 @@ export const getApi = async (url, params) => {
 
 export const postApi = async (url, data) => {
     try{
-        var response = await instance.post(url, {
-            method: 'post',
-            url,
-            data
-        });
+        var response = await instance.post(url, data);
         return response;
     }
     catch(error){

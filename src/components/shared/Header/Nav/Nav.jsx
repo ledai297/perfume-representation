@@ -13,6 +13,16 @@ export const Nav = ({ navItem }) => {
       setSub(false);
     }
   }, [height]);
+
+  const isActive = (pathName, nav) => {
+    if (pathName === '/shop') { 
+      router?.asPath?.includes(nav.key);
+      return router?.asPath?.includes(nav.key) || false;
+    }
+
+    return nav.path === router.pathname;
+  }
+
   return (
     <ul className='header-nav'>
       {navItem.map((nav) => (
@@ -23,7 +33,7 @@ export const Nav = ({ navItem }) => {
           }}
         >
           <Link href={nav.path}>
-            <a className={nav.path === router.pathname ? 'active' : ''}>
+            <a className={isActive(router.pathname, nav) ? 'active' : ''}>
               {nav.name}
             </a>
           </Link>

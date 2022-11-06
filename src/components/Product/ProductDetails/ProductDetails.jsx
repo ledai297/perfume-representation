@@ -83,7 +83,7 @@ export const ProductDetails = () => {
           <div className='col xs-6'>
             <label>Giới tính</label>
           </div>
-          <div className='col xs-6 product-detail__item-value'>{sex}</div>
+          <div className='col xs-6 product-detail__item-value'>Nước hoa {sex || 'unisex'}</div>
         </div>
 
         <div className='row'>
@@ -95,16 +95,9 @@ export const ProductDetails = () => {
 
         <div className='row'>
           <div className='col xs-6'>
-            <label>Mùi hương</label>
+            <label>Nhóm hương</label>
           </div>
           <div className='col xs-6 product-detail__item-value'>{product?.smell}</div>
-        </div>
-
-        <div className='row'>
-          <div className='col xs-6'>
-            <label>Hạn sử dụng</label>
-          </div>
-          <div className='col xs-6 product-detail__item-value'>{product?.guaranteePeriod} tháng</div>
         </div>
 
         <div className='row'>
@@ -123,16 +116,58 @@ export const ProductDetails = () => {
 
         <div className='row'>
           <div className='col xs-6'>
+            <label>Mùi hương chính</label>
+          </div>
+          <div className='col xs-6 product-detail__item-value'>{product?.mainSmell}</div>
+        </div>
+
+        <div className='row'>
+          <div className='col xs-6'>
+            <label>Độ lưu hương</label>
+          </div>
+          <div className='col xs-6 product-detail__item-value'>{product?.scentRetentionPeriod}</div>
+        </div>
+
+        <div className='row'>
+          <div className='col xs-6'>
+            <label>Độ tỏa hương</label>
+          </div>
+          <div className='col xs-6 product-detail__item-value'>{product?.fragrance }</div>
+        </div>
+
+        <div className='row'>
+          <div className='col xs-6'>
+            <label>Xuất xứ</label>
+          </div>
+          <div className='col xs-6 product-detail__item-value'>{product?.origin}</div>
+        </div>
+
+        <div className='row'>
+          <div className='col xs-6'>
+            <label>Năm phát hành</label>
+          </div>
+          <div className='col xs-6 product-detail__item-value'>{product?.releaseYear}</div>
+        </div>
+
+        <div className='row'>
+          <div className='col xs-6'>
+            <label>Hạn sử dụng</label>
+          </div>
+          <div className='col xs-6 product-detail__item-value'>{product?.guaranteePeriod} tháng</div>
+        </div>
+
+        <div className='row'>
+          <div className='col xs-6'>
             <label>Kho hàng</label>
           </div>
-          <div className='col xs-6 product-detail__item-value'>{product?.warehouse?.name}</div>
+          <div className='col xs-6 product-detail__item-value'>Hà Đông</div>
         </div>
 
         <div className='row'>
           <div className='col xs-6'>
             <label>Gửi từ</label>
           </div>
-          <div className='col xs-6 product-detail__item-value'>{product?.warehouse?.address}</div>
+          <div className='col xs-6 product-detail__item-value'>Văn Phú, Hà Đông, Hà Nội.</div>
         </div>
       </div>
     )
@@ -207,7 +242,9 @@ export const ProductDetails = () => {
               <span className='product-num'>SKU: {variantSelected?.sku}</span>
               {/* {product.oldPrice ? ( */}
                 <span className='product-price'>
-                  <span>đ {(variantSelected?.price * 1.1).toLocaleString("ja")}</span>đ {variantSelected?.price?.toLocaleString("ja")}
+                  <span>đ {variantSelected?.totalPrice 
+                        ? variantSelected?.totalPrice.toLocaleString("ja")
+                        : (variantSelected?.price * 1.1).toLocaleString("ja")}</span>đ {variantSelected?.price?.toLocaleString("ja")}
                 </span>
               {/* ) : (
                 <span className='product-price'>đ {variantSelected?.price?.toLocaleString("ja")}</span>

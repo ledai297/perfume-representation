@@ -38,9 +38,6 @@ export const Checkout = () => {
       setActiveStep(activeStep + 1);
     }
   };
-  const handlePrev = () => {
-    setActiveStep(activeStep - 1);
-  };
 
   useEffect(() => {
     const cart = StorageUtils.getCart();

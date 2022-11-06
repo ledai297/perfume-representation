@@ -1,22 +1,40 @@
 import Link from 'next/link';
 import productData from 'data/product/product';
+import NotificationService from 'service/notification/NotificationService';
+import { useForm } from "react-hook-form";
+import NotificationService from 'service/notification/NotificationService';
 
 export const ProfileAside = () => {
   const recentlyViewed = [...productData].slice(0, 3);
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const subcribe = async (values) => {
+    try {
+      const data = {
+        name: '',
+        phoneNumber: values.phoneNumber,
+        email: ''
+      }
+      await NotificationService.subcribe(data);
+    } catch(error) {
+
+    }
+  }
+
   return (
     <>
-      <div className='profile-aside'>
+      <form className='profile-aside' onSubmit={handleSubmit(subcribe)}>
         <div className='profile-aside__subscribe'>
           <h3>Nhận tư vấn</h3>
           <div className='box-field'>
             <input
-              type='email'
+              {...register("phoneNumber", {required: "Bạn chưa điền số điện thoại", pattern:{ value: /^(0|[1-9]\d*)(\.\d+)?$/}, message: 'Số điện thoại bạn nhập không hợp lệ' })}
               className='form-control'
-              placeholder='Enter your email'
+              placeholder='Số điện thoại'
             />
+            {errors.phoneNumber && <p role="alert">{errors.phoneNumber?.message}</p>}
           </div>
-          <button type='submit' className='btn'>
-            subscribe
+          <button onClick={subcribe} className='btn'>
+            Nhận tư vấn
           </button>
           <img
             src='/assets/img/subscribe-img-decor-sm.png'
@@ -61,7 +79,7 @@ export const ProfileAside = () => {
             </a>
           </Link>
         </div>
-      </div>
+      </form>
     </>
   );
 };
