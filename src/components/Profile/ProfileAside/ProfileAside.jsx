@@ -2,7 +2,6 @@ import Link from 'next/link';
 import productData from 'data/product/product';
 import NotificationService from 'service/notification/NotificationService';
 import { useForm } from "react-hook-form";
-import NotificationService from 'service/notification/NotificationService';
 import { useState } from 'react';
 
 export const ProfileAside = () => {

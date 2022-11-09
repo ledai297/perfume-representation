@@ -57,7 +57,6 @@ export const Header = () => {
       currentNavItems[2].subNav = categorySubNav;
       setNavItems(currentNavItems);
     } catch (error) {
-
     }
   }
 
